@@ -40,15 +40,6 @@
   "k.sh in dired"
   :group 'dired)
 
-(defcustom dired-k2-style nil
-  "Style for representing git status"
-  :type '(choice (const :tag "k.sh style" nil)
-                 (const :tag "Like 'git status --short'" git)))
-
-(defcustom dired-k2-human-readable nil
-  "Use human readable size format option."
-  :type 'boolean)
-
 (defface dired-k2-modified
   '((t (:foreground "red" :weight bold)))
   "Face of modified file in git repository")
@@ -102,10 +93,6 @@
   "assoc of file modified time and color"
   :type '(repeat (cons (integer :tag "Elapsed seconds from last modified")
                        (string :tag "Color"))))
-
-(defcustom dired-k2-padding 0
-  "padding around status characters"
-  :type 'integer)
 
 (defsubst dired-k2--git-status-color (stat)
   (cl-case stat
@@ -195,37 +182,16 @@
 (defsubst dired-k2--root-directory ()
   (locate-dominating-file default-directory ".git/"))
 
-(defsubst dired-k2--git-style-char (stat)
-  (cl-case stat
-    (modified (propertize "M " 'face 'dired-k2-modified))
-    (added (propertize "A " 'face 'dired-k2-added))
-    (untracked (propertize "??" 'face 'dired-k2-untracked))
-    (otherwise "  ")))
-
-(defun dired-k2--pad-spaces (str)
-  (if (zerop dired-k2-padding)
-      str
-    (let ((spaces (cl-loop repeat dired-k2-padding concat " ")))
-      (concat spaces str spaces))))
-
 (defun dired-k2--highlight-line-normal (stat)
   (let ((ov (make-overlay (1- (point)) (point)))
         (stat-face (dired-k2--git-status-color stat))
         (sign (if (memq stat '(modified added)) "+" "|")))
     (overlay-put ov 'display
-                 (propertize (dired-k2--pad-spaces sign) 'face stat-face))))
-
-(defun dired-k2--highlight-line-git-like (stat)
-  (goto-char (line-beginning-position))
-  (let ((ov (make-overlay (point) (+ (point) 2)))
-        (char (dired-k2--git-style-char stat)))
-    (overlay-put ov 'display char)))
+                 (propertize sign 'face stat-face))))
 
 (defun dired-k2--highlight-line (file stats)
   (let ((stat (gethash file stats 'normal)))
-    (cl-case dired-k2-style
-      (git (dired-k2--highlight-line-git-like stat))
-      (otherwise (dired-k2--highlight-line-normal stat)))))
+    (dired-k2--highlight-line-normal stat)))
 
 (defsubst dired-k2--directory-end-p ()
   (let ((line (buffer-substring-no-properties
@@ -305,14 +271,8 @@
              (date-end-point (1- (point))))
         (dired-k2--highlight-directory)
         (when file-size
-          (if dired-k2-human-readable
-              (progn
-                (dired-k2--move-to-file-size-column)
-                (let ((start (point)))
-                  (skip-chars-forward "^ ")
-                  (dired-k2--highlight-by-size file-size start (point))))
-            (when (re-search-backward (dired-k2--size-to-regexp file-size) nil t)
-              (dired-k2--highlight-by-size file-size (match-beginning 0) (match-end 0))))
+          (when (re-search-backward (dired-k2--size-to-regexp file-size) nil t)
+            (dired-k2--highlight-by-size file-size (match-beginning 0) (match-end 0)))
           (skip-chars-forward "^ \t")
           (skip-chars-forward " \t")
           (dired-k2--highlight-by-date modified-time (point) date-end-point))
@@ -327,9 +287,8 @@
       (string= "true" (buffer-substring-no-properties
                        (point) (line-end-position))))))
 
-(defun dired-k2--highlight (revert)
-  (when revert
-    (revert-buffer nil t))
+(defun dired-k2--highlight ()
+  (revert-buffer nil t)
   (save-excursion
     (dired-k2--highlight-by-file-attribyte)
     (when (dired-k2--inside-git-repository-p)
@@ -341,17 +300,11 @@
            #'dired-k2--highlight-git-information))))))
 
 ;;;###autoload
-(defun dired-k2-no-revert ()
-  "Same as `dired-k2' except not calling `revert-buffer'."
-  (interactive)
-  (dired-k2--highlight nil))
-
-;;;###autoload
 (defun dired-k2 ()
   "Highlighting dired buffer by file size, last modified time, and git status.
 This is inspired by `k' zsh script"
   (interactive)
-  (dired-k2--highlight t))
+  (dired-k2--highlight))
 
 (provide 'dired-k2)
 

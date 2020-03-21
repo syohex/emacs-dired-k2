@@ -11,10 +11,6 @@
 
 ![Screenshot of dired-k2 command](image/dired-k.png)
 
-### git status --short style
-
-![Screenshot of dired-k2 with git style](image/dired-2-style-git.png)
-
 
 ## Commands
 
@@ -25,27 +21,6 @@ Highlight dired buffer by following parameters.
 - File size
 - Modified time
 - Git status(if here is in git repository)
-
-### `dired-k2-no-revert`
-
-Same as `dired-k2`, except this command does not call `revert-buffert`.
-This command can set to a hook `dired-after-readin-hook`.
-
-
-## Customization
-
-### `dired-k2-style`(Default `nil`)
-
-View like `k.zsh` if this value is `nil`. View like `git status --short` if
-this value is `'git`.
-
-### `dired-k2-human-readable`(Default `nil`)
-
-Set non-nil if you add `-h` or `--human-readable` option to `dired-listing-switches`.
-
-### `dired-k2-padding`(Default 0)
-
-Number of spaces around git status character.
 
 
 ## Sample Configuration
@@ -60,6 +35,4 @@ Number of spaces around git status character.
 
 ;; always execute dired-k2 when dired buffer is opened
 (add-hook 'dired-initial-position-hook #'dired-k2)
-
-(add-hook 'dired-after-readin-hook #'dired-k2-no-revert)
 ```
