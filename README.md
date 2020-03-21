@@ -32,13 +32,6 @@ Same as `dired-k2`, except this command does not call `revert-buffert`.
 This command can set to a hook `dired-after-readin-hook`.
 
 
-## Customization
-
-### `dired-k2-padding`(Default 0)
-
-Number of spaces around git status character.
-
-
 ## Sample Configuration
 
 ### dired-k2

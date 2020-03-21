@@ -94,10 +94,6 @@
   :type '(repeat (cons (integer :tag "Elapsed seconds from last modified")
                        (string :tag "Color"))))
 
-(defcustom dired-k2-padding 0
-  "padding around status characters"
-  :type 'integer)
-
 (defsubst dired-k2--git-status-color (stat)
   (cl-case stat
     (modified 'dired-k2-modified)
@@ -186,18 +182,12 @@
 (defsubst dired-k2--root-directory ()
   (locate-dominating-file default-directory ".git/"))
 
-(defun dired-k2--pad-spaces (str)
-  (if (zerop dired-k2-padding)
-      str
-    (let ((spaces (cl-loop repeat dired-k2-padding concat " ")))
-      (concat spaces str spaces))))
-
 (defun dired-k2--highlight-line-normal (stat)
   (let ((ov (make-overlay (1- (point)) (point)))
         (stat-face (dired-k2--git-status-color stat))
         (sign (if (memq stat '(modified added)) "+" "|")))
     (overlay-put ov 'display
-                 (propertize (dired-k2--pad-spaces sign) 'face stat-face))))
+                 (propertize sign 'face stat-face))))
 
 (defun dired-k2--highlight-line (file stats)
   (let ((stat (gethash file stats 'normal)))
