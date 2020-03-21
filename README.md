@@ -26,6 +26,7 @@ Highlight dired buffer by following parameters.
 ## Sample Configuration
 
 ### dired-k2
+
 ```lisp
 (require 'dired-k2)
 (define-key dired-mode-map (kbd "K") #'dired-k2)
