@@ -34,11 +34,6 @@ This command can set to a hook `dired-after-readin-hook`.
 
 ## Customization
 
-### `dired-k2-style`(Default `nil`)
-
-View like `k.zsh` if this value is `nil`. View like `git status --short` if
-this value is `'git`.
-
 ### `dired-k2-human-readable`(Default `nil`)
 
 Set non-nil if you add `-h` or `--human-readable` option to `dired-listing-switches`.

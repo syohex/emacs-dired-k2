@@ -40,11 +40,6 @@
   "k.sh in dired"
   :group 'dired)
 
-(defcustom dired-k2-style nil
-  "Style for representing git status"
-  :type '(choice (const :tag "k.sh style" nil)
-                 (const :tag "Like 'git status --short'" git)))
-
 (defcustom dired-k2-human-readable nil
   "Use human readable size format option."
   :type 'boolean)
@@ -195,13 +190,6 @@
 (defsubst dired-k2--root-directory ()
   (locate-dominating-file default-directory ".git/"))
 
-(defsubst dired-k2--git-style-char (stat)
-  (cl-case stat
-    (modified (propertize "M " 'face 'dired-k2-modified))
-    (added (propertize "A " 'face 'dired-k2-added))
-    (untracked (propertize "??" 'face 'dired-k2-untracked))
-    (otherwise "  ")))
-
 (defun dired-k2--pad-spaces (str)
   (if (zerop dired-k2-padding)
       str
@@ -215,17 +203,9 @@
     (overlay-put ov 'display
                  (propertize (dired-k2--pad-spaces sign) 'face stat-face))))
 
-(defun dired-k2--highlight-line-git-like (stat)
-  (goto-char (line-beginning-position))
-  (let ((ov (make-overlay (point) (+ (point) 2)))
-        (char (dired-k2--git-style-char stat)))
-    (overlay-put ov 'display char)))
-
 (defun dired-k2--highlight-line (file stats)
   (let ((stat (gethash file stats 'normal)))
-    (cl-case dired-k2-style
-      (git (dired-k2--highlight-line-git-like stat))
-      (otherwise (dired-k2--highlight-line-normal stat)))))
+    (dired-k2--highlight-line-normal stat)))
 
 (defsubst dired-k2--directory-end-p ()
   (let ((line (buffer-substring-no-properties
