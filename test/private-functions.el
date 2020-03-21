@@ -1,8 +1,8 @@
-;;; private-functions.el --- test for dired-k private functions
+;;; private-functions.el --- test for dired-k2 private functions
 
-;; Copyright (C) 2017 by Syohei YOSHIDA
+;; Copyright (C) 2020 by Shohei YOSHIDA
 
-;; Author: Syohei YOSHIDA <syohex@gmail.com>
+;; Author: Shohei YOSHIDA <syohex@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -22,42 +22,42 @@
 ;;; Code:
 
 (require 'ert)
-(require 'dired-k)
+(require 'dired-k2)
 
 (ert-deftest child-directory ()
   "Return child directory path"
-  (let ((got (dired-k--child-directory "/foo/" "/foo/bar/baz")))
+  (let ((got (dired-k2--child-directory "/foo/" "/foo/bar/baz")))
     (should (string= got "/foo/bar"))))
 
 (ert-deftest update-subdirectory-state-already-modified ()
   "Update subdirectory state whose state is already modified"
   (dolist (s '(modified added normal untracked))
-    (should (eq (dired-k--subdir-status 'modified s) 'modified))))
+    (should (eq (dired-k2--subdir-status 'modified s) 'modified))))
 
 (ert-deftest update-subdirectory-state-overwrite-by-new-state ()
   "Update subdirectory state, overwrite by new state"
-  (should (eq (dired-k--subdir-status 'normal 'added) 'added))
+  (should (eq (dired-k2--subdir-status 'normal 'added) 'added))
 
   (dolist (s '(modified added untracked))
-    (should (eq (dired-k--subdir-status nil s) s))))
+    (should (eq (dired-k2--subdir-status nil s) s))))
 
 (ert-deftest update-subdirectory-state-set-new-state ()
   "Update subdirectory state, set to new state"
   (dolist (s '(modified added untracked))
-    (should (eq (dired-k--subdir-status nil s) s))))
+    (should (eq (dired-k2--subdir-status nil s) s))))
 
 (ert-deftest file-is-in-child-directory ()
   "Whether specified path is in child directory"
   (let ((here "/foo/bar")
         (path "/foo/bar/baz/a.txt"))
-    (should (dired-k--is-in-child-directory here path)))
+    (should (dired-k2--is-in-child-directory here path)))
 
   (let ((here "/foo/bar")
         (path "/foo/bar/a/b/c/d.txt"))
-    (should (dired-k--is-in-child-directory here path)))
+    (should (dired-k2--is-in-child-directory here path)))
 
   (let ((here "/foo/bar")
         (path "/foo/bar/bar.txt"))
-    (should-not (dired-k--is-in-child-directory here path))))
+    (should-not (dired-k2--is-in-child-directory here path))))
 
 ;;; private-functions.el ends here

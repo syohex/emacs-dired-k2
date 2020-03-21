@@ -1,6 +1,6 @@
-# dired-k.el
+# dired-k2.el
 
-`dired-k.el` highlights dired buffer like [k](https://github.com/supercrabtree/k).
+`dired-k2.el` highlights dired buffer like [k](https://github.com/supercrabtree/k).
 
 (This may works only default dired setting)
 
@@ -9,24 +9,16 @@
 
 ### k.zsh style
 
-![Screenshot of dired-k command](image/dired-k.png)
+![Screenshot of dired-k2 command](image/dired-k.png)
 
 ### git status --short style
 
-![Screenshot of dired-k with git style](image/dired-k-style-git.png)
-
-## Installation
-
-`dired-k` is available on [MELPA](https://melpa.org/) and [MELPA stable](https://stable.melpa.org/)
-
-You can install `dired-k` with the following command.
-
-<kbd>M-x package-install [RET] dired-k [RET]</kbd>
+![Screenshot of dired-k2 with git style](image/dired-2-style-git.png)
 
 
 ## Commands
 
-### `dired-k`
+### `dired-k2`
 
 Highlight dired buffer by following parameters.
 
@@ -34,40 +26,40 @@ Highlight dired buffer by following parameters.
 - Modified time
 - Git status(if here is in git repository)
 
-### `dired-k-no-revert`
+### `dired-k2-no-revert`
 
-Same as `dired-k`, except this command does not call `revert-buffert`.
+Same as `dired-k2`, except this command does not call `revert-buffert`.
 This command can set to a hook `dired-after-readin-hook`.
 
 
 ## Customization
 
-### `dired-k-style`(Default `nil`)
+### `dired-k2-style`(Default `nil`)
 
 View like `k.zsh` if this value is `nil`. View like `git status --short` if
 this value is `'git`.
 
-### `dired-k-human-readable`(Default `nil`)
+### `dired-k2-human-readable`(Default `nil`)
 
 Set non-nil if you add `-h` or `--human-readable` option to `dired-listing-switches`.
 
-### `dired-k-padding`(Default 0)
+### `dired-k2-padding`(Default 0)
 
 Number of spaces around git status character.
 
 
 ## Sample Configuration
 
-### dired-k
+### dired-k2
 ```lisp
-(require 'dired-k)
-(define-key dired-mode-map (kbd "K") 'dired-k)
+(require 'dired-k2)
+(define-key dired-mode-map (kbd "K") #'dired-k2)
 
-;; You can use dired-k alternative to revert-buffer
-(define-key dired-mode-map (kbd "g") 'dired-k)
+;; You can use dired-k2 alternative to revert-buffer
+(define-key dired-mode-map (kbd "g") #'dired-k2)
 
-;; always execute dired-k when dired buffer is opened
-(add-hook 'dired-initial-position-hook 'dired-k)
+;; always execute dired-k2 when dired buffer is opened
+(add-hook 'dired-initial-position-hook #'dired-k2)
 
-(add-hook 'dired-after-readin-hook #'dired-k-no-revert)
+(add-hook 'dired-after-readin-hook #'dired-k2-no-revert)
 ```
