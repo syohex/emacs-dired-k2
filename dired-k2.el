@@ -287,9 +287,8 @@
       (string= "true" (buffer-substring-no-properties
                        (point) (line-end-position))))))
 
-(defun dired-k2--highlight (revert)
-  (when revert
-    (revert-buffer nil t))
+(defun dired-k2--highlight ()
+  (revert-buffer nil t)
   (save-excursion
     (dired-k2--highlight-by-file-attribyte)
     (when (dired-k2--inside-git-repository-p)
@@ -301,17 +300,11 @@
            #'dired-k2--highlight-git-information))))))
 
 ;;;###autoload
-(defun dired-k2-no-revert ()
-  "Same as `dired-k2' except not calling `revert-buffer'."
-  (interactive)
-  (dired-k2--highlight nil))
-
-;;;###autoload
 (defun dired-k2 ()
   "Highlighting dired buffer by file size, last modified time, and git status.
 This is inspired by `k' zsh script"
   (interactive)
-  (dired-k2--highlight t))
+  (dired-k2--highlight))
 
 (provide 'dired-k2)
 

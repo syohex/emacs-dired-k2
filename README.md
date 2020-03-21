@@ -11,10 +11,6 @@
 
 ![Screenshot of dired-k2 command](image/dired-k.png)
 
-### git status --short style
-
-![Screenshot of dired-k2 with git style](image/dired-2-style-git.png)
-
 
 ## Commands
 
@@ -25,11 +21,6 @@ Highlight dired buffer by following parameters.
 - File size
 - Modified time
 - Git status(if here is in git repository)
-
-### `dired-k2-no-revert`
-
-Same as `dired-k2`, except this command does not call `revert-buffert`.
-This command can set to a hook `dired-after-readin-hook`.
 
 
 ## Sample Configuration
@@ -44,6 +35,4 @@ This command can set to a hook `dired-after-readin-hook`.
 
 ;; always execute dired-k2 when dired buffer is opened
 (add-hook 'dired-initial-position-hook #'dired-k2)
-
-(add-hook 'dired-after-readin-hook #'dired-k2-no-revert)
 ```
