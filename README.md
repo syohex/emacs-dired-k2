@@ -1,4 +1,4 @@
-# dired-k.el [![travis badge][travis-badge]][travis-link] [![melpa badge][melpa-badge]][melpa-link] [![melpa stable badge][melpa-stable-badge]][melpa-stable-link]
+# dired-k.el
 
 `dired-k.el` highlights dired buffer like [k](https://github.com/supercrabtree/k).
 
@@ -14,11 +14,6 @@
 ### git status --short style
 
 ![Screenshot of dired-k with git style](image/dired-k-style-git.png)
-
-### direx version
-
-![Screenshot of direx-k](image/direx-k.png)
-
 
 ## Installation
 
@@ -76,18 +71,3 @@ Number of spaces around git status character.
 
 (add-hook 'dired-after-readin-hook #'dired-k-no-revert)
 ```
-
-### direx-k
-```lisp
-(require 'direx-k)
-
-(global-set-key (kbd "C-\\") 'direx-project:jump-to-project-root-other-window)
-(define-key direx:direx-mode-map (kbd "K") 'direx-k)
-```
-
-[travis-badge]: https://travis-ci.org/syohex/emacs-dired-k.svg
-[travis-link]: https://travis-ci.org/syohex/emacs-dired-k
-[melpa-link]: https://melpa.org/#/dired-k
-[melpa-stable-link]: https://stable.melpa.org/#/dired-k
-[melpa-badge]: https://melpa.org/packages/dired-k-badge.svg
-[melpa-stable-badge]: https://stable.melpa.org/packages/dired-k-badge.svg
