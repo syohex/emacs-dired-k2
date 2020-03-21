@@ -34,10 +34,6 @@ This command can set to a hook `dired-after-readin-hook`.
 
 ## Customization
 
-### `dired-k2-human-readable`(Default `nil`)
-
-Set non-nil if you add `-h` or `--human-readable` option to `dired-listing-switches`.
-
 ### `dired-k2-padding`(Default 0)
 
 Number of spaces around git status character.

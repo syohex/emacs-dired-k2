@@ -40,10 +40,6 @@
   "k.sh in dired"
   :group 'dired)
 
-(defcustom dired-k2-human-readable nil
-  "Use human readable size format option."
-  :type 'boolean)
-
 (defface dired-k2-modified
   '((t (:foreground "red" :weight bold)))
   "Face of modified file in git repository")
@@ -285,14 +281,8 @@
              (date-end-point (1- (point))))
         (dired-k2--highlight-directory)
         (when file-size
-          (if dired-k2-human-readable
-              (progn
-                (dired-k2--move-to-file-size-column)
-                (let ((start (point)))
-                  (skip-chars-forward "^ ")
-                  (dired-k2--highlight-by-size file-size start (point))))
-            (when (re-search-backward (dired-k2--size-to-regexp file-size) nil t)
-              (dired-k2--highlight-by-size file-size (match-beginning 0) (match-end 0))))
+          (when (re-search-backward (dired-k2--size-to-regexp file-size) nil t)
+            (dired-k2--highlight-by-size file-size (match-beginning 0) (match-end 0)))
           (skip-chars-forward "^ \t")
           (skip-chars-forward " \t")
           (dired-k2--highlight-by-date modified-time (point) date-end-point))
