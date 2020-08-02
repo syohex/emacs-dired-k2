@@ -2,10 +2,10 @@
 
 ;; Copyright (C) 2020 by Shohei YOSHIDA
 
-;; Author: Syohei YOSHIDA <syohex@gmail.com>
+;; Author: Shohei YOSHIDA <syohex@gmail.com>
 ;; URL: https://github.com/syohex/emacs-dired-k2
 ;; Version: 0.19
-;; Package-Requires: ((emacs "26.1"))
+;; Package-Requires: ((emacs "26.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
